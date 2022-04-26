@@ -1,5 +1,6 @@
 package Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +14,18 @@ import com.example.doanjv.R;
 
 import java.util.List;
 
-import Model.SuaBenhNhan;
-import my_interface.ClickItemUserListener;
+import Model.entity.BenhNhanCustom;
+import api.BenhNhanService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Adapter_XoaBenhNhan extends RecyclerView.Adapter<Adapter_XoaBenhNhan.XoaBenhNhanViewHolder>{
     private View view;
-    private List<SuaBenhNhan> suaBenhNhanList;
+    private List<BenhNhanCustom> benhNhanCustomList;
 
-    public Adapter_XoaBenhNhan(List<SuaBenhNhan> list) {
-        this.suaBenhNhanList = list;
+    public Adapter_XoaBenhNhan(List<BenhNhanCustom> list) {
+        this.benhNhanCustomList = list;
     }
 
     @NonNull
@@ -33,20 +37,20 @@ public class Adapter_XoaBenhNhan extends RecyclerView.Adapter<Adapter_XoaBenhNha
 
     @Override
     public void onBindViewHolder(@NonNull XoaBenhNhanViewHolder holder, int position) {
-        SuaBenhNhan suaBenhNhan = suaBenhNhanList.get(position);
-        if(suaBenhNhan == null)
+        BenhNhanCustom benhNhanCustom = benhNhanCustomList.get(position);
+        if(benhNhanCustom == null)
         {
             return;
         }
-        holder.ten.setText(suaBenhNhan.getName());
-        holder.cmnd.setText(suaBenhNhan.getCmnd());
+        holder.ten.setText(benhNhanCustom.getCmnd_BenhNhan().getHoTen());
+        holder.cmnd.setText(benhNhanCustom.getCmnd_BenhNhan().getCmnd());
     }
 
     @Override
     public int getItemCount() {
-        if(suaBenhNhanList != null)
+        if(benhNhanCustomList != null)
         {
-            return suaBenhNhanList.size();
+            return benhNhanCustomList.size();
         }
         return 0;
     }
@@ -65,23 +69,44 @@ public class Adapter_XoaBenhNhan extends RecyclerView.Adapter<Adapter_XoaBenhNha
         }
     }
 
-    public void filterList(List<SuaBenhNhan> filterList)
+    public void filterList(List<BenhNhanCustom> filterList)
     {
-        suaBenhNhanList = filterList;
+        benhNhanCustomList = filterList;
         notifyDataSetChanged();
     }
 
     //hàm để xóa item
-    public void RemoveItem(int index)
+    public void RemoveItem(int index, int maBN)
     {
-        suaBenhNhanList.remove(index);
-        notifyItemRemoved(index);
+        BenhNhanService.benhNhanService.deleteBenhNhan(maBN).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                benhNhanCustomList.remove(index);
+                notifyItemRemoved(index);
+                Log.e("Call API", "Xóa thành công");
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("Call API", "Call API thất bại");
+            }
+        });
     }
 
     //hàm để khôi phục item
-    public void UndoItem(SuaBenhNhan suaBenhNhan, int index)
+    public void UndoItem(BenhNhanCustom benhNhanCustom, int index)
     {
-        suaBenhNhanList.add(index, suaBenhNhan);
-        notifyItemInserted(index);
+        BenhNhanService.benhNhanService.UndoBenhNhan(benhNhanCustom).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                benhNhanCustomList.add(index, benhNhanCustom);
+                notifyItemInserted(index);
+                Log.e("Call API", "Hủy xóa thành công");
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("Call API", "Call API thất bại");
+            }
+        });
     }
 }

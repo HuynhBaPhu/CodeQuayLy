@@ -4,7 +4,6 @@ package Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,18 +13,17 @@ import com.example.doanjv.R;
 
 import java.util.List;
 
-import Model.SuaBenhNhan;
+import Model.entity.BenhNhanCustom;
 import my_interface.ClickItemUserListener;
 
 public class Adapter_SuaBenhNhan extends RecyclerView.Adapter<Adapter_SuaBenhNhan.SuaBenhNhanViewHolder>{
-
     private View view;
-    private List<SuaBenhNhan> suaBenhNhanList;
-    private ClickItemUserListener clickItemUserListener;
+    private List<BenhNhanCustom> benhNhanCustomList;
+    private ClickItemUserListener listener;
 
-    public Adapter_SuaBenhNhan(List<SuaBenhNhan> list, ClickItemUserListener listener) {
-        this.suaBenhNhanList = list;
-        this.clickItemUserListener = listener;
+    public Adapter_SuaBenhNhan(List<BenhNhanCustom> ls, ClickItemUserListener listener) {
+        this.benhNhanCustomList = ls;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,48 +35,44 @@ public class Adapter_SuaBenhNhan extends RecyclerView.Adapter<Adapter_SuaBenhNha
 
     @Override
     public void onBindViewHolder(@NonNull SuaBenhNhanViewHolder holder, int position) {
-        SuaBenhNhan suaBenhNhan = suaBenhNhanList.get(position);
-        if(suaBenhNhan == null)
+        BenhNhanCustom benhNhanCustom = benhNhanCustomList.get(position);
+        if(benhNhanCustom == null)
         {
             return;
         }
-        holder.ten.setText(suaBenhNhan.getName());
-        holder.cmnd.setText(suaBenhNhan.getCmnd());
-
-        //sự kiện click RecyclerView để lấy giá trị từ activity nhờ hàm onClickGotoDetail sang Detail
-        holder.layoutsuabenhnhan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickItemUserListener.onClickItemUser(suaBenhNhan);
-            }
-        });
+        holder.ten.setText(benhNhanCustom.getCmnd_BenhNhan().getHoTen());
+        holder.cmnd.setText(benhNhanCustom.getCmnd_BenhNhan().getCmnd());
     }
 
     @Override
     public int getItemCount() {
-        if(suaBenhNhanList != null)
+        if(benhNhanCustomList != null)
         {
-            return suaBenhNhanList.size();
+            return benhNhanCustomList.size();
         }
         return 0;
     }
 
-    public class SuaBenhNhanViewHolder extends RecyclerView.ViewHolder
+    public class SuaBenhNhanViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        private LinearLayout layoutsuabenhnhan;
         private TextView ten;
         private TextView cmnd;
-
         public SuaBenhNhanViewHolder(@NonNull View itemView) {
             super(itemView);
-            layoutsuabenhnhan = itemView.findViewById(R.id.item_suabenhnhan);
             ten = itemView.findViewById(R.id.tvName);
             cmnd = itemView.findViewById(R.id.tvCmnd);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view, getAdapterPosition());
         }
     }
-    public void filterList(List<SuaBenhNhan> filterList)
+
+    public void filterList(List<BenhNhanCustom> filterList)
     {
-        suaBenhNhanList = filterList;
+        benhNhanCustomList = filterList;
         notifyDataSetChanged();
     }
 }

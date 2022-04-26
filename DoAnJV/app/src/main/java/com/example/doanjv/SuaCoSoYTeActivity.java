@@ -1,7 +1,6 @@
 package com.example.doanjv;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,59 +8,70 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Adapter.Adapter_SuaBenhNhan;
 import Adapter.Adapter_SuaCoSoYTe;
-import Model.SuaBenhNhan;
-import Model.SuaCoSoYTe;
+import Model.entity.BenhNhanCustom;
+import Model.entity.CoSoYTe;
+import api.BenhNhanService;
+import api.CoSoYTeService;
 import my_interface.ClickItemListener_CSYT;
 import my_interface.ClickItemUserListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SuaCoSoYTeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private Adapter_SuaCoSoYTe adapterSuaCoSoYTe;
-    List<SuaCoSoYTe> list;
+    private List<CoSoYTe> list = new ArrayList<>();
     private EditText hoten;
     private EditText cmnd;
+    private ClickItemListener_CSYT clickItemListenerCsyt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sua_co_so_yte);
+        anhxa();
+        setData();
+        click();
+    }
 
+    private void anhxa()
+    {
         recyclerView = findViewById(R.id.dsbenhnhan);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        //new ClickItemUserListener() để sử lý việc click gọi hàm onClickGotoDetail để đẩy dữ liệu sang Detail
-        adapterSuaCoSoYTe = new Adapter_SuaCoSoYTe(getList(), new ClickItemListener_CSYT() {
-            @Override
-            public void onClickItemUser(SuaCoSoYTe suaCoSoYTe) {
-                onClickGotoDetail(suaCoSoYTe);
-            }
-        });
-
-        recyclerView.setAdapter(adapterSuaCoSoYTe);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(itemDecoration);
-
-        //tim kiem theo ten csyt
         hoten = findViewById(R.id.tenCSYT);
+        cmnd = findViewById(R.id.diachi);
+    }
+
+    private void setData()
+    {
+        setOnClickListner();
+        LinearLayoutManager linearLayoutManage = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManage);
+        //listener để sử lý việc click gọi hàm onClickGotoDetail để đẩy dữ liệu sang Detail
+        adapterSuaCoSoYTe = new Adapter_SuaCoSoYTe(list, clickItemListenerCsyt);
+        recyclerView.setAdapter(adapterSuaCoSoYTe);
+        getAllData();
+    }
+
+    private void click()
+    {
+        //tim kiem theo ten
         hoten.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -70,30 +80,26 @@ public class SuaCoSoYTeActivity extends AppCompatActivity {
         });
 
         //tim kiem theo dia chi
-        cmnd = findViewById(R.id.diachi);
         cmnd.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                filterDC(editable.toString());
+                filterCMND(editable.toString());
             }
         });
     }
-    private void filterDC(String text)
+
+    private void filterCMND(String text)
     {
-        List<SuaCoSoYTe> filterList = new ArrayList<>();
-        for(SuaCoSoYTe item : list)
+        List<CoSoYTe> filterList = new ArrayList<>();
+        for(CoSoYTe item : list)
         {
-            if(item.getDiachi().toLowerCase().contains(text.toLowerCase()))
+            if(item.getDiaChi().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -103,37 +109,49 @@ public class SuaCoSoYTeActivity extends AppCompatActivity {
 
     private void filterTEN(String text)
     {
-        List<SuaCoSoYTe> filterList = new ArrayList<>();
-        for(SuaCoSoYTe item : list)
+        List<CoSoYTe> filterList = new ArrayList<>();
+        for(CoSoYTe item : list)
         {
-            if(item.getName().toLowerCase().contains(text.toLowerCase()))
+            if(item.getTenCSYT().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
         }
         adapterSuaCoSoYTe.filterList(filterList);
     }
-    private List<SuaCoSoYTe> getList() {
-        list = new ArrayList<>();
-        list.add(new SuaCoSoYTe("CSYT1", "1"));
-        list.add(new SuaCoSoYTe("CSYT2", "2"));
-        list.add(new SuaCoSoYTe("CSYT3", "3"));
-        list.add(new SuaCoSoYTe("CSYT4", "4"));
-        list.add(new SuaCoSoYTe("CSYT5", "5"));
-        list.add(new SuaCoSoYTe("CSYT6", "6"));
-        return list;
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-    //Hàm sử lý đẩy giá trị từ activity sang màn hình Detail
-    private void onClickGotoDetail(SuaCoSoYTe suaCoSoYTe)
+
+    private void getAllData()
     {
-        Intent intent = new Intent(this, DetailSuaCoSoYTe.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("object_SuaCSYT", suaCoSoYTe);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        CoSoYTeService.CSYTService.getAllCoSoYTe().enqueue(new Callback<List<CoSoYTe>>() {
+            @Override
+            public void onResponse(Call<List<CoSoYTe>> call, Response<List<CoSoYTe>> response) {
+                list.addAll(response.body());
+                adapterSuaCoSoYTe.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<CoSoYTe>> call, Throwable t) {
+                Toast.makeText(SuaCoSoYTeActivity.this,"Call API thất bại!" + t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setOnClickListner() {
+        clickItemListenerCsyt = new ClickItemListener_CSYT() {
+            @Override
+            public void onClick(View v, int position) {
+                String res[] = list.get(position).getDiaChi().split(", ");
+
+                Intent intent = new Intent(getApplicationContext(), DetailSuaCoSoYTe.class);
+                intent.putExtra("username", list.get(position).getTenCSYT());
+                intent.putExtra("tinhTP", res[0]);
+                intent.putExtra("QH", res[1]);
+                intent.putExtra("PX", res[2]);
+                intent.putExtra("TX", res[3]);
+                intent.putExtra("sdt", list.get(position).getSdt());
+                intent.putExtra("maCSYT",list.get(position).getMaCSYT());
+                startActivity(intent);
+            }
+        };
     }
 }

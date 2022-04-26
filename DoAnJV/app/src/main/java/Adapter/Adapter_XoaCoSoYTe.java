@@ -1,27 +1,35 @@
 package Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanjv.R;
+import com.example.doanjv.ThemBenhNhanActivity;
+import com.example.doanjv.XoaCoSoYTeActivity;
 
 import java.util.List;
 
-import Model.SuaBenhNhan;
 import Model.SuaCoSoYTe;
+import Model.entity.CoSoYTe;
+import api.CoSoYTeService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Adapter_XoaCoSoYTe extends RecyclerView.Adapter<Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder>{
     private View view;
-    private List<SuaCoSoYTe> suaCoSoYTeList;
+    private List<CoSoYTe> coSoYTeList;
 
-    public Adapter_XoaCoSoYTe(List<SuaCoSoYTe> suaCoSoYTeList) {
-        this.suaCoSoYTeList = suaCoSoYTeList;
+    public Adapter_XoaCoSoYTe(List<CoSoYTe> coSoYTeList) {
+        this.coSoYTeList = coSoYTeList;
     }
 
     @NonNull
@@ -33,20 +41,20 @@ public class Adapter_XoaCoSoYTe extends RecyclerView.Adapter<Adapter_XoaCoSoYTe.
 
     @Override
     public void onBindViewHolder(@NonNull XoaCoSoYTeViewHolder holder, int position) {
-        SuaCoSoYTe suaCoSoYTe = suaCoSoYTeList.get(position);
-        if(suaCoSoYTe == null)
+        CoSoYTe coSoYTe = coSoYTeList.get(position);
+        if(coSoYTe == null)
         {
             return;
         }
-        holder.ten.setText(suaCoSoYTe.getName());
-        holder.cmnd.setText(suaCoSoYTe.getDiachi());
+        holder.ten.setText(coSoYTe.getTenCSYT());
+        holder.cmnd.setText(coSoYTe.getDiaChi());
     }
 
     @Override
     public int getItemCount() {
-        if(suaCoSoYTeList != null)
+        if(coSoYTeList != null)
         {
-            return suaCoSoYTeList.size();
+            return coSoYTeList.size();
         }
         return 0;
     }
@@ -64,23 +72,43 @@ public class Adapter_XoaCoSoYTe extends RecyclerView.Adapter<Adapter_XoaCoSoYTe.
             linearLayout = itemView.findViewById(R.id.layout_thongtinxoa);
         }
     }
-    public void filterList(List<SuaCoSoYTe> filterList)
+    public void filterList(List<CoSoYTe> filterList)
     {
-        suaCoSoYTeList = filterList;
+        coSoYTeList = filterList;
         notifyDataSetChanged();
     }
 
     //hàm để xóa item
-    public void RemoveItem(int index)
+    public void RemoveItem(int index, int maCSYT)
     {
-        suaCoSoYTeList.remove(index);
-        notifyItemRemoved(index);
+        CoSoYTeService.CSYTService.deleteCoSoYTe(maCSYT).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                coSoYTeList.remove(index);
+                notifyItemRemoved(index);
+                Log.e("Call API", "Xóa thành công");
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("Call API", "Call API thất bại");
+            }
+        });
     }
 
     //hàm để khôi phục item
-    public void UndoItem(SuaCoSoYTe suaCoSoYTe, int index)
+    public void UndoItem(CoSoYTe coSoYTe, int index)
     {
-        suaCoSoYTeList.add(index, suaCoSoYTe);
-        notifyItemInserted(index);
+        CoSoYTeService.CSYTService.UndoCoSoYTe(coSoYTe).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                coSoYTeList.add(index, coSoYTe);
+                notifyItemInserted(index);
+                Log.e("Call API", "Hủy xóa thành công");
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("Call API", "Call API thất bại");
+            }
+        });
     }
 }

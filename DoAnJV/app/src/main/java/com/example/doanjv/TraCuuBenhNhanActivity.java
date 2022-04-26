@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,13 +28,17 @@ import java.util.Locale;
 
 import Adapter.Adapter_TraCuuBenhNhan;
 import Model.TraCuuBenhNhan;
+import Model.entity.BenhNhanCustom;
+import api.BenhNhanService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TraCuuBenhNhanActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private Adapter_TraCuuBenhNhan adapterTraCuuBenhNhan;
-    private SearchView searchView;
-    List<TraCuuBenhNhan> list;
+    List<BenhNhanCustom> list = new ArrayList<>();
 
     private EditText editText1;
     private EditText hoten;
@@ -50,9 +55,9 @@ public class TraCuuBenhNhanActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.dsbenhnhan);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapterTraCuuBenhNhan = new Adapter_TraCuuBenhNhan(getList());
+        adapterTraCuuBenhNhan = new Adapter_TraCuuBenhNhan(list);
         recyclerView.setAdapter(adapterTraCuuBenhNhan);
-
+        getAllData();
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
 
@@ -161,10 +166,10 @@ public class TraCuuBenhNhanActivity extends AppCompatActivity {
 
     private void filter(String text)
     {
-        List<TraCuuBenhNhan> filterList = new ArrayList<>();
-        for(TraCuuBenhNhan item : list)
+        List<BenhNhanCustom> filterList = new ArrayList<>();
+        for(BenhNhanCustom item : list)
         {
-            if(item.getName().toLowerCase().contains(text.toLowerCase()))
+            if(item.getCmnd_BenhNhan().getHoTen().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -173,10 +178,10 @@ public class TraCuuBenhNhanActivity extends AppCompatActivity {
     }
     private void filter2(String text)
     {
-        List<TraCuuBenhNhan> filterList = new ArrayList<>();
-        for(TraCuuBenhNhan item : list)
+        List<BenhNhanCustom> filterList = new ArrayList<>();
+        for(BenhNhanCustom item : list)
         {
-            if(item.getDate().toLowerCase().contains(text.toLowerCase()))
+            if(item.getCmnd_BenhNhan().getNgaySinh().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -185,10 +190,10 @@ public class TraCuuBenhNhanActivity extends AppCompatActivity {
     }
     private void filter3(String text)
     {
-        List<TraCuuBenhNhan> filterList = new ArrayList<>();
-        for(TraCuuBenhNhan item : list)
+        List<BenhNhanCustom> filterList = new ArrayList<>();
+        for(BenhNhanCustom item : list)
         {
-            if(item.getCmnd().toLowerCase().contains(text.toLowerCase()))
+            if(item.getCmnd_BenhNhan().getCmnd().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -197,10 +202,10 @@ public class TraCuuBenhNhanActivity extends AppCompatActivity {
     }
     private void filter4(String text)
     {
-        List<TraCuuBenhNhan> filterList = new ArrayList<>();
-        for(TraCuuBenhNhan item : list)
+        List<BenhNhanCustom> filterList = new ArrayList<>();
+        for(BenhNhanCustom item : list)
         {
-            if(item.getDiachi().toLowerCase().contains(text.toLowerCase()))
+            if(item.getCmnd_BenhNhan().getDiaChi().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -208,14 +213,21 @@ public class TraCuuBenhNhanActivity extends AppCompatActivity {
         adapterTraCuuBenhNhan.filterList(filterList);
     }
 
-    private List<TraCuuBenhNhan> getList() {
-        list = new ArrayList<>();
-        list.add(new TraCuuBenhNhan("Huỳnh Bá Phúc", "19/10/2001", "342075479", "0767286897", "ĐT"));
-        list.add(new TraCuuBenhNhan("Huỳnh Bá A", "19/10/2001", "342075479", "0767286897", "ĐT"));
-        list.add(new TraCuuBenhNhan("Huỳnh Bá B", "19/10/2001", "342075479", "0767286897", "ĐT"));
-        list.add(new TraCuuBenhNhan("Huỳnh Bá C", "19/10/2001", "342075479", "0767286897", "ĐT"));
-        list.add(new TraCuuBenhNhan("Huỳnh Bá D", "19/10/2001", "342075479", "0767286897", "ĐT"));
-        list.add(new TraCuuBenhNhan("Huỳnh Bá E", "19/10/2001", "342075479", "0767286897", "ĐT"));
-        return list;
+    private void getAllData()
+    {
+        BenhNhanService.benhNhanService.getAllBenhNhan().enqueue(new Callback<List<BenhNhanCustom>>() {
+            @Override
+            public void onResponse(Call<List<BenhNhanCustom>> call, Response<List<BenhNhanCustom>> response) {
+                if(response.body() != null)
+                {
+                    list.addAll(response.body());
+                    adapterTraCuuBenhNhan.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<BenhNhanCustom>> call, Throwable t) {
+                Toast.makeText(TraCuuBenhNhanActivity.this,"Call API thất bại!" + t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

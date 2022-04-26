@@ -17,15 +17,16 @@ import java.util.List;
 import java.util.Locale;
 
 import Model.TraCuuBenhNhan;
+import Model.entity.BenhNhanCustom;
 
 public class Adapter_TraCuuBenhNhan extends RecyclerView.Adapter<Adapter_TraCuuBenhNhan.TraCuuBenhNhanViewHolder>{
 
     private View view;
-    private List<TraCuuBenhNhan> traCuuBenhNhanList;
+    private List<BenhNhanCustom> benhNhanCustomList;
 
-    public Adapter_TraCuuBenhNhan(List<TraCuuBenhNhan> traCuuBenhNhanList)
+    public Adapter_TraCuuBenhNhan(List<BenhNhanCustom> benhNhanCustomList)
     {
-        this.traCuuBenhNhanList = traCuuBenhNhanList;
+        this.benhNhanCustomList = benhNhanCustomList;
     }
 
     @NonNull
@@ -37,30 +38,30 @@ public class Adapter_TraCuuBenhNhan extends RecyclerView.Adapter<Adapter_TraCuuB
 
     @Override
     public void onBindViewHolder(@NonNull TraCuuBenhNhanViewHolder holder, int position) {
-        TraCuuBenhNhan traCuuBenhNhan = traCuuBenhNhanList.get(position);
-        if(traCuuBenhNhan == null)
+        BenhNhanCustom benhNhanCustom = benhNhanCustomList.get(position);
+        if(benhNhanCustom == null)
         {
             return;
         }
-        holder.ten.setText(traCuuBenhNhan.getName());
-        holder.ngaysinh.setText(traCuuBenhNhan.getDate());
-        holder.cmnd.setText(traCuuBenhNhan.getCmnd());
-        holder.sdt.setText(traCuuBenhNhan.getSdt());
-        holder.diachi.setText(traCuuBenhNhan.getDiachi());
+        holder.ten.setText(benhNhanCustom.getCmnd_BenhNhan().getHoTen());
+        holder.ngaysinh.setText(benhNhanCustom.getCmnd_BenhNhan().getNgaySinh());
+        holder.cmnd.setText(benhNhanCustom.getCmnd_BenhNhan().getCmnd());
+        holder.sdt.setText(benhNhanCustom.getCmnd_BenhNhan().getSdt());
+        holder.diachi.setText(benhNhanCustom.getCmnd_BenhNhan().getDiaChi());
     }
 
     @Override
     public int getItemCount() {
-        if(traCuuBenhNhanList != null)
+        if(benhNhanCustomList != null)
         {
-            return traCuuBenhNhanList.size();
+            return benhNhanCustomList.size();
         }
         return 0;
     }
 
-    public void filterList(List<TraCuuBenhNhan> filterList)
+    public void filterList(List<BenhNhanCustom> filterList)
     {
-        traCuuBenhNhanList = filterList;
+        benhNhanCustomList = filterList;
         notifyDataSetChanged();
     }
 

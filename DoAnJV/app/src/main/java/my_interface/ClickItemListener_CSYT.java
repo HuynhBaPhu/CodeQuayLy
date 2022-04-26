@@ -1,7 +1,7 @@
 package my_interface;
 
-import Model.SuaCoSoYTe;
+import android.view.View;
 
 public interface ClickItemListener_CSYT {
-    void onClickItemUser(SuaCoSoYTe suaCoSoYTe);
+    void onClick(View v, int position);
 }

@@ -13,26 +13,31 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Adapter.Adapter_XoaBenhNhan;
 import Adapter.Adapter_XoaCoSoYTe;
-import Model.SuaBenhNhan;
 import Model.SuaCoSoYTe;
+import Model.entity.CoSoYTe;
+import api.CoSoYTeService;
 import my_interface.ItemTouchHelperListener_CSYT;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class XoaCoSoYTeActivity extends AppCompatActivity implements ItemTouchHelperListener_CSYT {
 
     private RecyclerView recyclerView;
     private Adapter_XoaCoSoYTe adapterXoaCoSoYTe;
-    List<SuaCoSoYTe> list;
+    private List<CoSoYTe> list = new ArrayList<>();
     private EditText hoten;
     private EditText cmnd;
     private LinearLayout linearLayout;
+    private int maCSYT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +50,9 @@ public class XoaCoSoYTeActivity extends AppCompatActivity implements ItemTouchHe
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapterXoaCoSoYTe = new Adapter_XoaCoSoYTe(getList());
+        adapterXoaCoSoYTe = new Adapter_XoaCoSoYTe(list);
         recyclerView.setAdapter(adapterXoaCoSoYTe);
+        getAllData();
         //dòng kẻ phân biệt
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
@@ -93,12 +99,29 @@ public class XoaCoSoYTeActivity extends AppCompatActivity implements ItemTouchHe
         });
     }
 
+    private void getAllData() {
+        CoSoYTeService.CSYTService.getAllCoSoYTe().enqueue(new Callback<List<CoSoYTe>>() {
+            @Override
+            public void onResponse(Call<List<CoSoYTe>> call, Response<List<CoSoYTe>> response) {
+                if(response.body() != null)
+                {
+                    list.addAll(response.body());
+                    adapterXoaCoSoYTe.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<CoSoYTe>> call, Throwable t) {
+                Toast.makeText(XoaCoSoYTeActivity.this,"Call API thất bại!" + t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void filterDC(String text)
     {
-        List<SuaCoSoYTe> filterList = new ArrayList<>();
-        for(SuaCoSoYTe item : list)
+        List<CoSoYTe> filterList = new ArrayList<>();
+        for(CoSoYTe item : list)
         {
-            if(item.getDiachi().toLowerCase().contains(text.toLowerCase()))
+            if(item.getDiaChi().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -108,10 +131,10 @@ public class XoaCoSoYTeActivity extends AppCompatActivity implements ItemTouchHe
 
     private void filterTEN(String text)
     {
-        List<SuaCoSoYTe> filterList = new ArrayList<>();
-        for(SuaCoSoYTe item : list)
+        List<CoSoYTe> filterList = new ArrayList<>();
+        for(CoSoYTe item : list)
         {
-            if(item.getName().toLowerCase().contains(text.toLowerCase()))
+            if(item.getTenCSYT().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -119,36 +142,26 @@ public class XoaCoSoYTeActivity extends AppCompatActivity implements ItemTouchHe
         adapterXoaCoSoYTe.filterList(filterList);
     }
 
-    private List<SuaCoSoYTe> getList() {
-        list = new ArrayList<>();
-        list.add(new SuaCoSoYTe("CSYT 1", "1"));
-        list.add(new SuaCoSoYTe("CSYT 2", "2"));
-        list.add(new SuaCoSoYTe("CSYT 3", "3"));
-        list.add(new SuaCoSoYTe("CSYT 4", "4"));
-        list.add(new SuaCoSoYTe("CSYT 5", "5"));
-        list.add(new SuaCoSoYTe("CSYT 6", "6"));
-        return list;
-    }
-
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder) {
         if(viewHolder instanceof Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder)
         {
             //hiểm thị tên user khi đã xóa ở thanh khôi phục dữ liệu
-            String nameDelete = list.get(viewHolder.getAdapterPosition()).getName();
+            String nameDelete = list.get(viewHolder.getAdapterPosition()).getTenCSYT();
 
             //tạo đối tượng user để thực hiện xóa
-            final SuaCoSoYTe suaCoSoYTeDelete = list.get(viewHolder.getAdapterPosition());
+            final CoSoYTe coSoYTeDelete = list.get(viewHolder.getAdapterPosition());
             final int index = viewHolder.getAdapterPosition();
 
             //remove item
-            adapterXoaCoSoYTe.RemoveItem(index);
+            maCSYT = list.get(viewHolder.getAdapterPosition()).getMaCSYT();
+            adapterXoaCoSoYTe.RemoveItem(index, maCSYT);
 
-            Snackbar snackbar = Snackbar.make(linearLayout, nameDelete + "remove!", Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(linearLayout, nameDelete + " remove!", Snackbar.LENGTH_LONG);
             snackbar.setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    adapterXoaCoSoYTe.UndoItem(suaCoSoYTeDelete, index);
+                    adapterXoaCoSoYTe.UndoItem(coSoYTeDelete, index);
                 }
             });
             snackbar.setActionTextColor(Color.YELLOW);

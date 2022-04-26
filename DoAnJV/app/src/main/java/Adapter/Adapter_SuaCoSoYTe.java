@@ -13,18 +13,17 @@ import com.example.doanjv.R;
 
 import java.util.List;
 
-import Model.SuaBenhNhan;
 import Model.SuaCoSoYTe;
+import Model.entity.CoSoYTe;
 import my_interface.ClickItemListener_CSYT;
-import my_interface.ClickItemUserListener;
 
 public class Adapter_SuaCoSoYTe extends RecyclerView.Adapter<Adapter_SuaCoSoYTe.SuaCoSoYTeViewHolder>{
     private View view;
-    private List<SuaCoSoYTe> suaCoSoYTeList;
+    private List<CoSoYTe> coSoYTeList;
     private ClickItemListener_CSYT clickItemUserListener;
 
-    public Adapter_SuaCoSoYTe(List<SuaCoSoYTe> suaCoSoYTeList, ClickItemListener_CSYT clickItemUserListener) {
-        this.suaCoSoYTeList = suaCoSoYTeList;
+    public Adapter_SuaCoSoYTe(List<CoSoYTe> coSoYTeList, ClickItemListener_CSYT clickItemUserListener) {
+        this.coSoYTeList = coSoYTeList;
         this.clickItemUserListener = clickItemUserListener;
     }
 
@@ -37,48 +36,43 @@ public class Adapter_SuaCoSoYTe extends RecyclerView.Adapter<Adapter_SuaCoSoYTe.
 
     @Override
     public void onBindViewHolder(@NonNull SuaCoSoYTeViewHolder holder, int position) {
-        SuaCoSoYTe suaCoSoYTe = suaCoSoYTeList.get(position);
-        if(suaCoSoYTe == null)
+        CoSoYTe coSoYTe = coSoYTeList.get(position);
+        if(coSoYTe == null)
         {
             return;
         }
-        holder.ten.setText(suaCoSoYTe.getName());
-        holder.cmnd.setText(suaCoSoYTe.getDiachi());
-
-        //sự kiện click RecyclerView để lấy giá trị từ activity nhờ hàm onClickGotoDetail sang Detail
-        holder.layoutsuacsyt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickItemUserListener.onClickItemUser(suaCoSoYTe);
-            }
-        });
+        holder.ten.setText(coSoYTe.getTenCSYT());
+        holder.cmnd.setText(coSoYTe.getDiaChi());
     }
 
     @Override
     public int getItemCount() {
-        if(suaCoSoYTeList != null)
+        if(coSoYTeList != null)
         {
-            return suaCoSoYTeList.size();
+            return coSoYTeList.size();
         }
         return 0;
     }
 
-    public class SuaCoSoYTeViewHolder extends RecyclerView.ViewHolder
+    public class SuaCoSoYTeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        private LinearLayout layoutsuacsyt;
         private TextView ten;
         private TextView cmnd;
 
         public SuaCoSoYTeViewHolder(@NonNull View itemView) {
             super(itemView);
-            layoutsuacsyt = itemView.findViewById(R.id.item_suacsyt);
             ten = itemView.findViewById(R.id.tenCSYT);
             cmnd = itemView.findViewById(R.id.diachi);
+            itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View view) {
+            clickItemUserListener.onClick(view, getAdapterPosition());
         }
     }
-    public void filterList(List<SuaCoSoYTe> filterList)
+    public void filterList(List<CoSoYTe> filterList)
     {
-        suaCoSoYTeList = filterList;
+        coSoYTeList = filterList;
         notifyDataSetChanged();
     }
 }

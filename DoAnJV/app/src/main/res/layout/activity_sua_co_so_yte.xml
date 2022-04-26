@@ -26,9 +26,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="23dp"
+                android:layout_marginTop="25dp"
                 android:background="#006466"
-                app:srcCompat="@android:drawable/ic_menu_revert"
+                android:src="@drawable/back"
                 app:tint="#FFFFFF"
                 tools:ignore="MissingConstraints" />
 
@@ -36,7 +36,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="25dp"
                 android:text="Sửa thông tin cơ sở y tế"
                 android:textColor="@color/white"
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="CSYT"
+                    android:text="Cơ sở y tế"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
             </LinearLayout>
@@ -100,8 +100,7 @@
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/edit_text_background"
-                android:textSize="15dp"
-                android:inputType="number"/>
+                android:textSize="15dp" />
         </LinearLayout>
     </LinearLayout>
 

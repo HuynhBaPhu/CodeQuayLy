@@ -13,25 +13,30 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Adapter.Adapter_SuaBenhNhan;
 import Adapter.Adapter_XoaBenhNhan;
-import Model.SuaBenhNhan;
+import Model.entity.BenhNhanCustom;
+import api.BenhNhanService;
 import my_interface.ItemTouchHelperListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class XoaBenhNhanActivity extends AppCompatActivity implements ItemTouchHelperListener {
 
     private RecyclerView recyclerView;
     private Adapter_XoaBenhNhan adapterXoaBenhNhan;
-    List<SuaBenhNhan> list;
+    private List<BenhNhanCustom> list = new ArrayList<>();
     private EditText hoten;
     private EditText cmnd;
     private LinearLayout linearLayout;
+    private int maBN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +49,9 @@ public class XoaBenhNhanActivity extends AppCompatActivity implements ItemTouchH
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapterXoaBenhNhan = new Adapter_XoaBenhNhan(getList());
+        adapterXoaBenhNhan = new Adapter_XoaBenhNhan(list);
         recyclerView.setAdapter(adapterXoaBenhNhan);
+        getAllData();
         //dòng kẻ phân biệt
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
@@ -92,12 +98,29 @@ public class XoaBenhNhanActivity extends AppCompatActivity implements ItemTouchH
         });
     }
 
+    private void getAllData() {
+        BenhNhanService.benhNhanService.getAllBenhNhan().enqueue(new Callback<List<BenhNhanCustom>>() {
+            @Override
+            public void onResponse(Call<List<BenhNhanCustom>> call, Response<List<BenhNhanCustom>> response) {
+                if(response.body() != null)
+                {
+                    list.addAll(response.body());
+                    adapterXoaBenhNhan.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<BenhNhanCustom>> call, Throwable t) {
+                Toast.makeText(XoaBenhNhanActivity.this,"Call API thất bại!" + t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void filterCMND(String text)
     {
-        List<SuaBenhNhan> filterList = new ArrayList<>();
-        for(SuaBenhNhan item : list)
+        List<BenhNhanCustom> filterList = new ArrayList<>();
+        for(BenhNhanCustom item : list)
         {
-            if(item.getCmnd().toLowerCase().contains(text.toLowerCase()))
+            if(item.getCmnd_BenhNhan().getCmnd().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -107,10 +130,10 @@ public class XoaBenhNhanActivity extends AppCompatActivity implements ItemTouchH
 
     private void filterTEN(String text)
     {
-        List<SuaBenhNhan> filterList = new ArrayList<>();
-        for(SuaBenhNhan item : list)
+        List<BenhNhanCustom> filterList = new ArrayList<>();
+        for(BenhNhanCustom item : list)
         {
-            if(item.getName().toLowerCase().contains(text.toLowerCase()))
+            if(item.getCmnd_BenhNhan().getHoTen().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -118,36 +141,26 @@ public class XoaBenhNhanActivity extends AppCompatActivity implements ItemTouchH
         adapterXoaBenhNhan.filterList(filterList);
     }
 
-    private List<SuaBenhNhan> getList() {
-        list = new ArrayList<>();
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc", "1"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc1", "2"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc2", "3"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc3", "4"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc4", "5"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc5", "6"));
-        return list;
-    }
-
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder) {
         if(viewHolder instanceof Adapter_XoaBenhNhan.XoaBenhNhanViewHolder)
         {
             //hiểm thị tên user khi đã xóa ở thanh khôi phục dữ liệu
-            String nameDelete = list.get(viewHolder.getAdapterPosition()).getName();
+            String nameDelete = list.get(viewHolder.getAdapterPosition()).getCmnd_BenhNhan().getHoTen();
 
             //tạo đối tượng user để thực hiện xóa
-            final SuaBenhNhan suaBenhNhanDelete = list.get(viewHolder.getAdapterPosition());
+            final BenhNhanCustom BenhNhanDelete = list.get(viewHolder.getAdapterPosition());
             final int index = viewHolder.getAdapterPosition();
 
             //remove item
-            adapterXoaBenhNhan.RemoveItem(index);
+            maBN = list.get(viewHolder.getAdapterPosition()).getMaBN();
+            adapterXoaBenhNhan.RemoveItem(index, maBN);
 
-            Snackbar snackbar = Snackbar.make(linearLayout, nameDelete + "remove!", Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(linearLayout, nameDelete + " remove!", Snackbar.LENGTH_LONG);
             snackbar.setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    adapterXoaBenhNhan.UndoItem(suaBenhNhanDelete, index);
+                    adapterXoaBenhNhan.UndoItem(BenhNhanDelete, index);
                 }
             });
             snackbar.setActionTextColor(Color.YELLOW);

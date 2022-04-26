@@ -25,13 +25,13 @@
             android:layout_height="75dp">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="23dp"
+                android:layout_marginTop="25dp"
                 android:background="#006466"
-                app:srcCompat="@android:drawable/ic_menu_revert"
+                android:src="@drawable/back"
                 app:tint="#FFFFFF"
                 tools:ignore="MissingConstraints" />
 
@@ -39,7 +39,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="25dp"
                 android:text="Sửa thông tin bệnh nhân"
                 android:textColor="@color/white"
@@ -149,30 +149,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/rdbGioitinh">
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Nam"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"
+                    android:id="@+id/nam"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nữ"
+                    android:textColorLink="@color/black"
                     android:textSize="15dp"
-                    android:textColorLink="@color/black"/>
+                    android:id="@+id/nu"/>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Khác"
-                    android:textSize="15dp"
-                    android:textColorLink="@color/black"/>
             </RadioGroup>
 
-            //Dia chi
+            //Tinh/thanh pho
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -184,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Địa chỉ"
+                    android:text="Tỉnh/Thành phố"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
 
@@ -196,7 +193,94 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/diachi"
+                android:id="@+id/TinhTP"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/edit_text_background"
+                android:textSize="15dp" />
+            //Quan/Huyen
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Quận/Huyện"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(*)"
+                    android:textColor="#FA0505" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/Quan_huyen"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/edit_text_background"
+                android:textSize="15dp" />
+            //Phuong xa
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Phường xã"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(*)"
+                    android:textColor="#FA0505" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/Phuongxa"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/edit_text_background"
+                android:textSize="15dp" />
+            //so nha
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Thôn/Xóm/Số nhà"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/Sonha"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -228,10 +312,36 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/edit_text_background"
-                android:textSize="15dp"
-                android:inputType="phone"/>
+                android:inputType="phone"
+                android:textSize="15dp" />
 
-            //CMND/CCCD
+<!--            //CMND/CCCD-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:text="CMND/CCCD"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="15dp" />-->
+<!--            </LinearLayout>-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/cmnd"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:background="@drawable/edit_text_background"-->
+<!--                android:inputType="number"-->
+<!--                android:textSize="15dp" />-->
+            //Ngay ket qua xet nghiem
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -243,21 +353,145 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="CMND/CCCD"
+                    android:text="Ngày kết quả xét nghiệm"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(*)"
+                    android:textColor="#FA0505" />
             </LinearLayout>
 
             <EditText
-                android:id="@+id/cmnd"
+                android:id="@+id/editTextDate_NgayKetQuaXetNghiem"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/edit_text_background"
-                android:textSize="15dp"
-                android:inputType="number"/>
+                android:ems="10"
+                android:inputType="date"
+                android:textSize="15dp" />
+            //Ket qua xet nghiem
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Kết quả xét nghiệm"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <EditText
+                android:id="@+id/v_spinner1"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/edit_text_background"
+                android:ems="10"
+                android:inputType="date"
+                android:textSize="15dp" />
+
+            //Số lần dương tính
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Số lần dương tính"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(*)"
+                    android:textColor="#FA0505" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextDate_SoLanDuongTinh"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/edit_text_background"
+                android:inputType="number"
+                android:textSize="15dp" />
+
+            //lich su tiem vaccine
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Lịch sử tiêm vaccine"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(*)"
+                    android:textColor="#FA0505" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/v_spinner2"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/edit_text_background"
+                android:inputType="number"
+                android:textSize="15dp" />
+<!--            //Số lần dương tính-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:text="Mã cơ sở y tết điều trị"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="15dp" />-->
+<!--            </LinearLayout>-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/edtCSYT"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:background="@drawable/edit_text_background"-->
+<!--                android:inputType="number"-->
+<!--                android:textSize="15dp" />-->
 
             <Button
                 android:id="@+id/btn_luu"
@@ -265,7 +499,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="130dp"
                 android:layout_marginTop="15dp"
-                android:backgroundTint="#006466"
+                android:backgroundTint="#1B8B8B"
                 android:text="Lưu thông tin"
                 android:textSize="15dp" />
         </LinearLayout>

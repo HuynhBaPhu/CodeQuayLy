@@ -12,13 +12,13 @@
     <string name="action_search">Search</string>
     <string-array name="ket_qua_xet_nghiem">
         <item>Dương tính</item>
+        <item>Âm tính</item>
     </string-array>
 
     <string-array name="lich_su_tiem_vaccine">
-        <item></item>
         <item>Chưa tiêm vaccine</item>
-        <item>Đã tiêm mũi 1</item>
-        <item>Đã tiêm mũi 2</item>
-        <item>Đã tiêm mũi 3</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 </resources>

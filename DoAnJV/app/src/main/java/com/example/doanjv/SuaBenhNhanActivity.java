@@ -1,7 +1,6 @@
 package com.example.doanjv;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,60 +8,66 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Adapter.Adapter_SuaBenhNhan;
-import Adapter.Adapter_TraCuuBenhNhan;
-import Model.SuaBenhNhan;
-import Model.TraCuuBenhNhan;
+import Model.entity.BenhNhanCustom;
+import api.BenhNhanService;
 import my_interface.ClickItemUserListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SuaBenhNhanActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private Adapter_SuaBenhNhan adapterSuaBenhNhan;
-    List<SuaBenhNhan> list;
+    private List<BenhNhanCustom> list = new ArrayList<>();
     private EditText hoten;
     private EditText cmnd;
+    private ClickItemUserListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sua_benh_nhan);
+        anhxa();
+        setData();
+        click();
+    }
 
+    private void anhxa()
+    {
         recyclerView = findViewById(R.id.dsbenhnhan);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        //new ClickItemUserListener() để sử lý việc click gọi hàm onClickGotoDetail để đẩy dữ liệu sang Detail
-        adapterSuaBenhNhan = new Adapter_SuaBenhNhan(getList(), new ClickItemUserListener() {
-            @Override
-            public void onClickItemUser(SuaBenhNhan suaBenhNhan) {
-                onClickGotoDetail(suaBenhNhan);
-            }
-        });
-
-        recyclerView.setAdapter(adapterSuaBenhNhan);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(itemDecoration);
-
-
-        //tim kiem theo ten
         hoten = findViewById(R.id.hoten);
+        cmnd = findViewById(R.id.cmnd);
+    }
+
+    private void setData()
+    {
+        setOnClickListner();
+        LinearLayoutManager linearLayoutManage = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManage);
+        //listener để sử lý việc click gọi hàm onClickGotoDetail để đẩy dữ liệu sang Detail
+        adapterSuaBenhNhan = new Adapter_SuaBenhNhan(list, listener);
+        recyclerView.setAdapter(adapterSuaBenhNhan);
+        getAllData();
+    }
+
+    private void click()
+    {
+        //tim kiem theo ten
         hoten.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -71,17 +76,12 @@ public class SuaBenhNhanActivity extends AppCompatActivity {
         });
 
         //tim kiem theo cmnd
-        cmnd = findViewById(R.id.cmnd);
         cmnd.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -92,10 +92,10 @@ public class SuaBenhNhanActivity extends AppCompatActivity {
 
     private void filterCMND(String text)
     {
-        List<SuaBenhNhan> filterList = new ArrayList<>();
-        for(SuaBenhNhan item : list)
+        List<BenhNhanCustom> filterList = new ArrayList<>();
+        for(BenhNhanCustom item : list)
         {
-            if(item.getCmnd().toLowerCase().contains(text.toLowerCase()))
+            if(item.getCmnd_BenhNhan().getCmnd().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -105,10 +105,10 @@ public class SuaBenhNhanActivity extends AppCompatActivity {
 
     private void filterTEN(String text)
     {
-        List<SuaBenhNhan> filterList = new ArrayList<>();
-        for(SuaBenhNhan item : list)
+        List<BenhNhanCustom> filterList = new ArrayList<>();
+        for(BenhNhanCustom item : list)
         {
-            if(item.getName().toLowerCase().contains(text.toLowerCase()))
+            if(item.getCmnd_BenhNhan().getHoTen().toLowerCase().contains(text.toLowerCase()))
             {
                 filterList.add(item);
             }
@@ -116,29 +116,54 @@ public class SuaBenhNhanActivity extends AppCompatActivity {
         adapterSuaBenhNhan.filterList(filterList);
     }
 
-    private List<SuaBenhNhan> getList() {
-        list = new ArrayList<>();
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc", "1"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc1", "2"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc2", "3"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc3", "4"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc4", "5"));
-        list.add(new SuaBenhNhan("Huỳnh Bá Phúc5", "6"));
-        return list;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    //Hàm sử lý đẩy giá trị từ activity sang màn hình Detail
-    private void onClickGotoDetail(SuaBenhNhan suaBenhNhan)
+    private void getAllData()
     {
-        Intent intent = new Intent(this, DetailSuaBenhNhanActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("object_Suabenhnhan", suaBenhNhan);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        BenhNhanService.benhNhanService.getAllBenhNhan().enqueue(new Callback<List<BenhNhanCustom>>() {
+            @Override
+            public void onResponse(Call<List<BenhNhanCustom>> call, Response<List<BenhNhanCustom>> response) {
+                if(response.body() != null)
+                {
+                    list.addAll(response.body());
+                    adapterSuaBenhNhan.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<BenhNhanCustom>> call, Throwable t) {
+                Toast.makeText(SuaBenhNhanActivity.this,"Call API thất bại!" + t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setOnClickListner() {
+        listener = new ClickItemUserListener() {
+            @Override
+            public void onClick(View v, int position) {
+                int solanmac = list.get(position).getSoLanMac();
+                int solantiem = list.get(position).getSoMuiVacin();
+                int macsyt = list.get(position).getMaCSYT_BenhNhan().getMaCSYT();
+                String solanmacc = String.valueOf(solanmac);
+                String solantiemm = String.valueOf(solantiem);
+                String macsytt = String.valueOf(macsyt);
+                String res[] = list.get(position).getCmnd_BenhNhan().getDiaChi().split(", ");
+
+                Intent intent = new Intent(getApplicationContext(), DetailSuaBenhNhanActivity.class);
+                intent.putExtra("username", list.get(position).getCmnd_BenhNhan().getHoTen());
+                intent.putExtra("ngaysinh", list.get(position).getCmnd_BenhNhan().getNgaySinh());
+                intent.putExtra("gioitinh", list.get(position).getCmnd_BenhNhan().getGioiTinh());
+                intent.putExtra("tinhTP", res[0]);
+                intent.putExtra("QH", res[1]);
+                intent.putExtra("PX", res[2]);
+                intent.putExtra("TX", res[3]);
+                intent.putExtra("sdt", list.get(position).getCmnd_BenhNhan().getSdt());
+                intent.putExtra("cmnd", list.get(position).getCmnd_BenhNhan().getCmnd());
+                intent.putExtra("ngayphathien", list.get(position).getNgayPhatHien());
+                intent.putExtra("ketqua", list.get(position).getTrangThai());
+                intent.putExtra("solanmac",  solanmacc);
+                intent.putExtra("solantiem", solantiemm);
+                intent.putExtra("macsyt", macsytt);
+                intent.putExtra("maBN",list.get(position).getMaBN());
+                startActivity(intent);
+            }
+        };
     }
 }
