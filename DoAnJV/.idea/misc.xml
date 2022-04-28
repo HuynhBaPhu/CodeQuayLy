@@ -18,9 +18,13 @@
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/drawable/ic_launcher_background.xml" value="0.208" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/drawable/ic_place.xml" value="0.2435" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/drawable/ic_user.xml" value="0.2435" />
+        <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/drawable/ic_user_avatar.xml" value="0.2435" />
+        <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/drawable/rectangle_home_2.xml" value="0.1" />
+        <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/drawable/rectangle_home_blue.xml" value="0.121" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout-land/task_tinhtrangsuckhoe.xml" value="0.21164021164021163" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/activity_detail_sua_benh_nhan.xml" value="0.264" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/activity_detail_sua_co_so_yte.xml" value="0.264" />
+        <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/activity_sua_benh_nhan.xml" value="0.264" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/activity_sua_co_so_yte.xml" value="0.25" />
@@ -29,6 +33,7 @@
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/activity_tra_cuu_benh_nhan.xml" value="0.264" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/activity_xoa_benh_nhan.xml" value="0.25" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/activity_xoa_co_so_yte.xml" value="0.25" />
+        <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/dong_chuc_nang_home.xml" value="0.10989583333333333" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/example_item.xml" value="0.25" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/fragment__thong_tin.xml" value="0.2" />
         <entry key="..\:/LearnJavaAndroid/DoAnJV/app/src/main/res/layout/fragment__tinh_trang_suc_khoe.xml" value="0.2" />

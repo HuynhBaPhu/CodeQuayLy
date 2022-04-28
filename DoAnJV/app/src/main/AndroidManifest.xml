@@ -18,11 +18,61 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.DoAnJV">
         <activity
+            android:name=".SuaBenhNhanActivity"
+            android:exported="false">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".DetailSuaCoSoYTe"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".DetailSuaBenhNhanActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".ThemBenhNhanActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".XoaBenhNhanActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".XoaCoSoYTeActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".ThemCoSoYTeActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".SuaCoSoYTeActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
             android:name=".TraCuuBenhNhanActivity"
+            android:exported="false">
+        </activity>
+
+
+        <activity
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
