@@ -8,47 +8,32 @@
     android:orientation="vertical"
     tools:context=".ThemBenhNhanActivity">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#006466">
+        <ImageButton
+            android:id="@+id/back_ThemBenhNhan"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_back_activity"
             android:background="#006466">
-        </View>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="75dp">
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="25dp"
-                android:background="#006466"
-                android:src="@drawable/back"
-                app:tint="#FFFFFF"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="25dp"
-                android:text="Thêm thông tin bệnh nhân"
-                android:textColor="@color/white"
-                android:textSize="20dp" />
-        </LinearLayout>
-    </RelativeLayout>
+        </ImageButton>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thêm thông tin bệnh nhân"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_slab"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+    </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp">
 
         <LinearLayout
             android:id="@+id/layout_tong"
@@ -116,6 +101,7 @@
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:drawableRight="@drawable/ic_calendar"
                 android:background="@drawable/edit_text_background"
                 android:ems="10"
                 android:inputType="date"
@@ -365,6 +351,7 @@
                 android:background="@drawable/edit_text_background"
                 android:ems="10"
                 android:inputType="date"
+                android:drawableRight="@drawable/ic_calendar"
                 android:textSize="15dp" />
 
             //Ket qua xet nghiem
@@ -460,351 +447,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Mã cơ sở y tết điều trị"
+                    android:text="Mã cơ sở y tế điều trị"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
             </LinearLayout>
-            <EditText
-                android:id="@+id/edtCSYT"
+            <Spinner
+                android:id="@+id/spCSYT"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/edit_text_background"
-                android:inputType="number"
                 android:textSize="15dp" />
-            //Question
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:text="Trong 14 ngày qua. Anh/chị có tiếp xúc với"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:textStyle="bold"/>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Người bệnh hoặc nghi ngờ mắc COVID-19"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Người từ nước ngoài có bênh COVID-19"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Người có biểu hiện: sốt ho, khó thở, viêm phổi"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-
-            //Question triệu chứng
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:text="Triệu chứng"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:textStyle="bold"/>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Ho"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Sốt (trên 37.5 độ)"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Đau họng, rát họng"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Sổ mũi, chảy mũi, ngạt mũi"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Khó thở"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Đau ngực, tức ngực"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Đau mỏi người, đau cơ"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Đau đầu"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"/>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có"
-                        android:textSize="15dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Không"
-                        android:textSize="15dp"/>
-                </RadioGroup>
-            </LinearLayout>
             <Button
                 android:id="@+id/btn_luu"
                 android:layout_width="wrap_content"

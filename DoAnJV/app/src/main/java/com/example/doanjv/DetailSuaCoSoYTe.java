@@ -35,6 +35,7 @@ public class DetailSuaCoSoYTe extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_sua_co_so_yte);
+        getSupportActionBar().hide();
         anhxa();
         setData();
         click();
@@ -42,7 +43,7 @@ public class DetailSuaCoSoYTe extends AppCompatActivity {
 
     private void setData()
     {
-        String username = "not set";
+        String username = "";
         String tinhTP = "";
         String QH = "";
         String PX = "";
@@ -69,7 +70,7 @@ public class DetailSuaCoSoYTe extends AppCompatActivity {
 
     private void anhxa()
     {
-        back = (ImageButton) findViewById(R.id.back);
+        back = (ImageButton) findViewById(R.id.backSuaCoSoYTe2);
         name = (EditText) findViewById(R.id.tenCSYT);
         edtTinhTP = (EditText) findViewById(R.id.TinhTP);
         edtQuanH = (EditText) findViewById(R.id.Quan_huyen);
@@ -84,7 +85,7 @@ public class DetailSuaCoSoYTe extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DetailSuaCoSoYTe.this, SuaCoSoYTeActivity.class);
+                Intent intent = new Intent(DetailSuaCoSoYTe.this, TXScoSoYTe.class);
                 startActivity(intent);
             }
         });
@@ -92,16 +93,48 @@ public class DetailSuaCoSoYTe extends AppCompatActivity {
         btnLuuThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Update();
+                KiemTra();
             }
         });
+    }
+
+    private void KiemTra()
+    {
+        if(name.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaCoSoYTe.this,"Chưa nhập tên cơ sở y tế",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtTinhTP.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaCoSoYTe.this,"Chưa nhập Tỉnh, Thành phố",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtQuanH.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaCoSoYTe.this,"Chưa nhập quận, huyện",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtPhuongX.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaCoSoYTe.this,"Chưa nhập phường, xã",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSonha.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaCoSoYTe.this,"Chưa nhập số nhà",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSdt.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaCoSoYTe.this,"Chưa nhập số điện thoại",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Update();
+        }
     }
 
     private void Update()
     {
         CoSoYTe coSoYTe = new CoSoYTe();
         coSoYTe.setTenCSYT(name.getText().toString().trim());
-        coSoYTe.setSdt(edtSdt.getText().toString().trim());
+        coSoYTe.setSdt(edtSdt.getText().toString());
         String dc = edtSonha.getText().toString().trim()+", "+edtPhuongX.getText().toString().trim()+", "
                 +edtQuanH.getText().toString().trim()+", "+edtTinhTP.getText().toString().trim();
         coSoYTe.setDiaChi(dc);

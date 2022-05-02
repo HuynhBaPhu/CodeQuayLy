@@ -16,8 +16,10 @@ import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -45,12 +47,15 @@ public class TraCuuBenhNhanActivity extends AppCompatActivity {
     private EditText namsinh;
     private EditText cmnd;
     private EditText diachi;
+    private ImageButton btnBack;
+    private Button btnDatLai;
     DatePickerDialog.OnDateSetListener setListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tra_cuu_benh_nhan);
+        getSupportActionBar().hide();
 
         recyclerView = findViewById(R.id.dsbenhnhan);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -160,6 +165,26 @@ public class TraCuuBenhNhanActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 filter4(editable.toString());
+            }
+        });
+
+        //back
+        btnBack = findViewById(R.id.back_TraCuuBenhNhan);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        btnDatLai = findViewById(R.id.btnDatLaiTraCuuBN);
+        btnDatLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hoten.setText("");
+                namsinh.setText("");
+                cmnd.setText("");
+                diachi.setText("");
             }
         });
     }

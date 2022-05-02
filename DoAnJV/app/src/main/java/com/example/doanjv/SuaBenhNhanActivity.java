@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,14 +34,23 @@ public class SuaBenhNhanActivity extends AppCompatActivity {
     private EditText hoten;
     private EditText cmnd;
     private ClickItemUserListener listener;
+    private ImageView btnBack;
+    private Button btnDatLai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sua_benh_nhan);
+        getSupportActionBar().hide();
         anhxa();
         setData();
         click();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllData();
     }
 
     private void anhxa()
@@ -46,6 +58,8 @@ public class SuaBenhNhanActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.dsbenhnhan);
         hoten = findViewById(R.id.hoten);
         cmnd = findViewById(R.id.cmnd);
+        btnBack = findViewById(R.id.backSuaThongTinBenhNhan1);
+        btnDatLai = findViewById(R.id.btnDatLaiSuaBN);
     }
 
     private void setData()
@@ -88,6 +102,20 @@ public class SuaBenhNhanActivity extends AppCompatActivity {
                 filterCMND(editable.toString());
             }
         });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        btnDatLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hoten.setText("");
+                cmnd.setText("");
+            }
+        });
     }
 
     private void filterCMND(String text)
@@ -123,13 +151,15 @@ public class SuaBenhNhanActivity extends AppCompatActivity {
             public void onResponse(Call<List<BenhNhanCustom>> call, Response<List<BenhNhanCustom>> response) {
                 if(response.body() != null)
                 {
+                    list.clear();
                     list.addAll(response.body());
+                    Log.e("SuaThonTinBenhNhan",list.size()+"");
                     adapterSuaBenhNhan.notifyDataSetChanged();
                 }
             }
             @Override
             public void onFailure(Call<List<BenhNhanCustom>> call, Throwable t) {
-                Toast.makeText(SuaBenhNhanActivity.this,"Call API thất bại!" + t.getMessage(),Toast.LENGTH_SHORT).show();
+                Log.e("SuaThonTinBenhNhan","Fail");
             }
         });
     }
@@ -150,10 +180,10 @@ public class SuaBenhNhanActivity extends AppCompatActivity {
                 intent.putExtra("username", list.get(position).getCmnd_BenhNhan().getHoTen());
                 intent.putExtra("ngaysinh", list.get(position).getCmnd_BenhNhan().getNgaySinh());
                 intent.putExtra("gioitinh", list.get(position).getCmnd_BenhNhan().getGioiTinh());
-                intent.putExtra("tinhTP", res[0]);
+                intent.putExtra("tinhTP", res[3]);
                 intent.putExtra("QH", res[1]);
-                intent.putExtra("PX", res[2]);
-                intent.putExtra("TX", res[3]);
+                intent.putExtra("PX", res[1]);
+                intent.putExtra("TX", res[0]);
                 intent.putExtra("sdt", list.get(position).getCmnd_BenhNhan().getSdt());
                 intent.putExtra("cmnd", list.get(position).getCmnd_BenhNhan().getCmnd());
                 intent.putExtra("ngayphathien", list.get(position).getNgayPhatHien());

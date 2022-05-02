@@ -6,43 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".TraCuuBenhNhanActivity"
     android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#006466">
+        <ImageButton
+            android:id="@+id/back_TraCuuBenhNhan"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_back_activity"
             android:background="#006466">
-        </View>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="75dp">
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="25dp"
-                android:background="#006466"
-                android:src="@drawable/back"
-                app:tint="#FFFFFF"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="25dp"
-                android:text="Tra cứu bệnh nhân COVID-19"
-                android:textColor="@color/white"
-                android:textSize="20dp" />
-        </LinearLayout>
-    </RelativeLayout>
+        </ImageButton>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tra cứu thông tin bệnh nhân"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_slab"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+    </FrameLayout>
 
     //khung 1
     <LinearLayout
@@ -169,6 +152,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:id="@+id/btnDatLaiTraCuuBN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
@@ -182,5 +166,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dsbenhnhan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
 </LinearLayout>

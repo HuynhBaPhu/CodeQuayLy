@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,14 +37,23 @@ public class SuaCoSoYTeActivity extends AppCompatActivity {
     private EditText hoten;
     private EditText cmnd;
     private ClickItemListener_CSYT clickItemListenerCsyt;
+    private ImageButton btnBack;
+    private Button btnDatLai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sua_co_so_yte);
+        getSupportActionBar().hide();
         anhxa();
         setData();
         click();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllData();
     }
 
     private void anhxa()
@@ -50,6 +61,8 @@ public class SuaCoSoYTeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.dsbenhnhan);
         hoten = findViewById(R.id.tenCSYT);
         cmnd = findViewById(R.id.diachi);
+        btnBack = findViewById(R.id.back_SuaThongTinCoSoYTe1);
+        btnDatLai = findViewById(R.id.btnDatLaiSuaCSYT);
     }
 
     private void setData()
@@ -92,6 +105,20 @@ public class SuaCoSoYTeActivity extends AppCompatActivity {
                 filterCMND(editable.toString());
             }
         });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        btnDatLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hoten.setText("");
+                cmnd.setText("");
+            }
+        });
     }
 
     private void filterCMND(String text)
@@ -125,6 +152,7 @@ public class SuaCoSoYTeActivity extends AppCompatActivity {
         CoSoYTeService.CSYTService.getAllCoSoYTe().enqueue(new Callback<List<CoSoYTe>>() {
             @Override
             public void onResponse(Call<List<CoSoYTe>> call, Response<List<CoSoYTe>> response) {
+                list.clear();
                 list.addAll(response.body());
                 adapterSuaCoSoYTe.notifyDataSetChanged();
             }
@@ -144,10 +172,10 @@ public class SuaCoSoYTeActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), DetailSuaCoSoYTe.class);
                 intent.putExtra("username", list.get(position).getTenCSYT());
-                intent.putExtra("tinhTP", res[0]);
-                intent.putExtra("QH", res[1]);
-                intent.putExtra("PX", res[2]);
-                intent.putExtra("TX", res[3]);
+                intent.putExtra("tinhTP", res[3]);
+                intent.putExtra("QH", res[2]);
+                intent.putExtra("PX", res[1]);
+                intent.putExtra("TX", res[0]);
                 intent.putExtra("sdt", list.get(position).getSdt());
                 intent.putExtra("maCSYT",list.get(position).getMaCSYT());
                 startActivity(intent);

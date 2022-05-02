@@ -63,7 +63,6 @@ public class Adapter_SuaBenhNhan extends RecyclerView.Adapter<Adapter_SuaBenhNha
             cmnd = itemView.findViewById(R.id.tvCmnd);
             itemView.setOnClickListener(this);
         }
-
         @Override
         public void onClick(View view) {
             listener.onClick(view, getAdapterPosition());

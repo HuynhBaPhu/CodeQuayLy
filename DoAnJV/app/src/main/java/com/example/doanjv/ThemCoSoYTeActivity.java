@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -36,6 +37,7 @@ public class ThemCoSoYTeActivity extends AppCompatActivity {
     private EditText edtSonha;
     private EditText edtSdt;
     private Button btnLuuThongTin;
+    private ImageButton btnBack;
     private ProgressDialog progressDialog;
     FirebaseStorage storage;
     // Create a storage reference from our app
@@ -45,6 +47,7 @@ public class ThemCoSoYTeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_them_co_so_yte);
+        getSupportActionBar().hide();
         progressDialog = new ProgressDialog(ThemCoSoYTeActivity.this);
         anhxa();
         click();
@@ -59,6 +62,7 @@ public class ThemCoSoYTeActivity extends AppCompatActivity {
         edtSonha = (EditText) findViewById(R.id.Sonha);
         edtSdt = (EditText) findViewById(R.id.sdt);
         btnLuuThongTin = (Button) findViewById(R.id.btn_luu);
+        btnBack = findViewById(R.id.back_ThemCoSoYTe);
     }
 
     private void click()
@@ -66,11 +70,48 @@ public class ThemCoSoYTeActivity extends AppCompatActivity {
         btnLuuThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                progressDialog.setTitle("Vui lòng chờ!");
-//                progressDialog.show();
-                dangKyCSYT();
+                KiemTra();
             }
         });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ThemCoSoYTeActivity.this, TXScoSoYTe.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void KiemTra()
+    {
+        if(edtTenCSYT.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemCoSoYTeActivity.this,"Chưa nhập tên cơ sở y tế",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtTinhTP.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemCoSoYTeActivity.this,"Chưa nhập Tỉnh, Thành phố",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtQuanH.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemCoSoYTeActivity.this,"Chưa nhập quận, huyện",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtPhuongX.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemCoSoYTeActivity.this,"Chưa nhập phường, xã",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSonha.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemCoSoYTeActivity.this,"Chưa nhập số nhà",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSdt.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemCoSoYTeActivity.this,"Chưa nhập số điện thoại",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            dangKyCSYT();
+        }
     }
 
     private void dangKyCSYT()

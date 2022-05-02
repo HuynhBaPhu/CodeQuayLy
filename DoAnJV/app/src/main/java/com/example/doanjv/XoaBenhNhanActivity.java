@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -37,14 +39,19 @@ public class XoaBenhNhanActivity extends AppCompatActivity implements ItemTouchH
     private EditText cmnd;
     private LinearLayout linearLayout;
     private int maBN;
+    private ImageButton btnBack;
+    private Button btnDatLai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xoa_benh_nhan);
 
+        getSupportActionBar().hide();
+
         linearLayout = findViewById(R.id.root_view);
         recyclerView = findViewById(R.id.dsbenhnhan);
+        btnDatLai = findViewById(R.id.btnDatLaiXoaBN);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -94,6 +101,21 @@ public class XoaBenhNhanActivity extends AppCompatActivity implements ItemTouchH
             @Override
             public void afterTextChanged(Editable editable) {
                 filterCMND(editable.toString());
+            }
+        });
+        btnBack = findViewById(R.id.back_XoaBenhNhan);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        btnDatLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hoten.setText("");
+                cmnd.setText("");
             }
         });
     }

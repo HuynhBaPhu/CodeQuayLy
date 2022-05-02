@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.doanjv">
 
-<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,67 +15,36 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.DoAnJV">
+        android:theme="@style/Theme.DoAnJV"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".TXScoSoYTe" />
+         <activity android:name=".TXSbenhNhan" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".DetailSuaCoSoYTe" />
+        <activity android:name=".DangNhapActivity" />
         <activity
-            android:name=".SuaBenhNhanActivity"
-            android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
-
-        <activity
-            android:name=".DetailSuaCoSoYTe"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".DetailSuaBenhNhanActivity"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".ThemBenhNhanActivity"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".XoaBenhNhanActivity"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".XoaCoSoYTeActivity"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".ThemCoSoYTeActivity"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".SuaCoSoYTeActivity"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".TraCuuBenhNhanActivity"
-            android:exported="false">
-        </activity>
-
-
-        <activity
-            android:name=".HomeActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SuaBenhNhanActivity" />
+        <activity android:name=".SuaCoSoYTeActivity" />
+        <activity android:name=".ThemCoSoYTeActivity" />
+        <activity android:name=".DetailSuaBenhNhanActivity" />
+        <activity android:name=".ThemBenhNhanActivity" />
+        <activity android:name=".TraCuuBenhNhanActivity" />
+        <activity android:name=".XoaBenhNhanActivity" />
+        <activity android:name=".XoaCoSoYTeActivity" />
+        <activity android:name=".ThongTinCaNhanActivity" />
+        <activity android:name=".ThongTinCaNhiemActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

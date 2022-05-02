@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,7 +24,10 @@ import android.widget.Toast;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import Model.entity.BenhNhanCustom;
@@ -54,9 +58,10 @@ public class ThemBenhNhanActivity extends AppCompatActivity {
     private Spinner edtKetqua;
     private EditText edtSoLanDT;
     private Spinner edtLichSu;
-    private EditText edtCSYT;
+    private Spinner spCSYT;
     private Button btnLuuThongTin;
     private ProgressDialog progressDialog;
+    private ImageButton btnBack;
     FirebaseStorage storage;
     DatePickerDialog.OnDateSetListener setListener;
     DatePickerDialog.OnDateSetListener setListener1;
@@ -68,6 +73,7 @@ public class ThemBenhNhanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_them_benh_nhan);
+        getSupportActionBar().hide();
         progressDialog = new ProgressDialog(ThemBenhNhanActivity.this);
         anhxa();
         click();
@@ -90,9 +96,36 @@ public class ThemBenhNhanActivity extends AppCompatActivity {
         edtKetqua = (Spinner) findViewById(R.id.v_spinner1);
         edtSoLanDT = (EditText) findViewById(R.id.editTextDate_SoLanDuongTinh);
         edtLichSu = (Spinner) findViewById(R.id.v_spinner2);
-        edtCSYT = (EditText) findViewById(R.id.edtCSYT);
+        spCSYT = (Spinner) findViewById(R.id.spCSYT);
         btnLuuThongTin = (Button) findViewById(R.id.btn_luu);
         rdbNam.setChecked(true);
+        btnBack = findViewById(R.id.back_ThemBenhNhan);
+
+        CoSoYTeService.CSYTService.getAllCoSoYTe().enqueue(new Callback<List<CoSoYTe>>() {
+            @Override
+            public void onResponse(Call<List<CoSoYTe>> call, Response<List<CoSoYTe>> response) {
+                setDataToSpinerCSYT(response.body());
+                Log.e("ThemBenhNhan","Call API thanh cong");
+            }
+
+            @Override
+            public void onFailure(Call<List<CoSoYTe>> call, Throwable t) {
+                Log.e("ThemBenhNhan","Call API that bai");
+            }
+        });
+    }
+
+    private void setDataToSpinerCSYT(List<CoSoYTe> ls) {
+        ArrayList<String> dataCSYT = new ArrayList<String>();
+        for (CoSoYTe coSoYTe : ls)
+        {
+            dataCSYT.add(coSoYTe.getMaCSYT()+"-"+coSoYTe.getTenCSYT());
+        }
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,dataCSYT);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spCSYT.setAdapter(arrayAdapter);
+
     }
 
     private void click()
@@ -105,45 +138,105 @@ public class ThemBenhNhanActivity extends AppCompatActivity {
         edtNgaySinh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(ThemBenhNhanActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,setListener,year,month,day);
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Calendar calendar = Calendar.getInstance();
+                int ngay = calendar.get(Calendar.DATE);
+                int thang = calendar.get(Calendar.MONTH);
+                int nam = calendar.get(Calendar.YEAR);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(ThemBenhNhanActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int nam, int thang, int ngay) {
+                        calendar.set(nam, thang, ngay);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String date = simpleDateFormat.format(calendar.getTime());
+                        edtNgaySinh.setText(date);
+                    }
+                }, nam, thang, ngay);
                 datePickerDialog.show();
             }
         });
-        setListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month+1;
-                String date = day+"/"+month+"/"+year;
-                edtNgaySinh.setText(date);
-            }
-        };
 
         edtNgayKetQua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePickerDialog1 = new DatePickerDialog(ThemBenhNhanActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,setListener1,year,month,day);
-                datePickerDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog1.show();
+                Calendar calendar = Calendar.getInstance();
+                int ngay = calendar.get(Calendar.DATE);
+                int thang = calendar.get(Calendar.MONTH);
+                int nam = calendar.get(Calendar.YEAR);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(ThemBenhNhanActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int nam, int thang, int ngay) {
+                        calendar.set(nam, thang, ngay);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String date = simpleDateFormat.format(calendar.getTime());
+                        edtNgayKetQua.setText(date);
+                    }
+                }, nam, thang, ngay);
+                datePickerDialog.show();
             }
         });
-        setListener1 = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month+1;
-                String date1 = day+"/"+month+"/"+year;
-                edtNgayKetQua.setText(date1);
-            }
-        };
 
         btnLuuThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                progressDialog.setTitle("Vui lòng chờ!");
-//                progressDialog.show();
-                DangKyConNguoi();
+                KiemTra();
             }
         });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ThemBenhNhanActivity.this, TXSbenhNhan.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void KiemTra()
+    {
+        if(edtHoten.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"Tên không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtNgaySinh.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"Ngày sinh không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtTinhTP.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"Tỉnh, Thành phố không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtQuanH.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"Quận, Huyện không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtPhuongX.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"Phường, Xã không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSonha.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"Số nhà không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSdt.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"Số điện thoại không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtCCCD.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"CMND/CCCD không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtNgayKetQua.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"Ngày kết quả xét nghiệm không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSoLanDT.getText().toString().isEmpty())
+        {
+            Toast.makeText(ThemBenhNhanActivity.this,"Chưa nhập số lần dương tính",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            DangKyConNguoi();
+        }
     }
 
     private void DangKyConNguoi()
@@ -165,7 +258,6 @@ public class ThemBenhNhanActivity extends AppCompatActivity {
                     Toast.makeText(ThemBenhNhanActivity.this,"Đã tồn tại con người!",Toast.LENGTH_SHORT).show();
                 else
                 {
-                    Toast.makeText(ThemBenhNhanActivity.this,"Đã thêm người mới!",Toast.LENGTH_SHORT).show();
                     themMoiBenhNhan(conNguoi);
                 }
             }
@@ -178,7 +270,7 @@ public class ThemBenhNhanActivity extends AppCompatActivity {
 
     private void themMoiBenhNhan(ConNguoi conNguoi)
     {
-        String Macsyt = edtCSYT.getText().toString();
+        String Macsyt = spCSYT.getSelectedItem().toString().split("-")[0];
         String SoLanMac = edtSoLanDT.getText() + "";
         String SoMuiVaccine = edtLichSu.getSelectedItem().toString();
         int soLanMac = Integer.parseInt(SoLanMac);
@@ -208,65 +300,5 @@ public class ThemBenhNhanActivity extends AppCompatActivity {
             }
         });
     }
-//    private void themMoiBenhNhan(ConNguoi conNguoi) {
-//        if(edtCSYT.getText().toString() == null)
-//        {
-//            themBenhNhan(null,conNguoi);
-//        }
-//        else
-//        {
-//            String Macsyt = edtCSYT.getText().toString();
-//            int macsyt = Integer.parseInt(Macsyt);
-//            CoSoYTeService.CSYTService.getOneCoSoYTe(macsyt).enqueue(new Callback<CoSoYTe>() {
-//                @Override
-//                public void onResponse(Call<CoSoYTe> call, Response<CoSoYTe> response) {
-//                    CoSoYTe coSoYTe = response.body();
-//                    if(coSoYTe != null)
-//                    {
-//                        themBenhNhan(coSoYTe,conNguoi);
-//                        Toast.makeText(ThemBenhNhanActivity.this,"Tìm và thêm thành công CSYT", Toast.LENGTH_SHORT).show();
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(ThemBenhNhanActivity.this,"Thêm CSYT thất bại", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                @Override
-//                public void onFailure(Call<CoSoYTe> call, Throwable t) {
-//                    Toast.makeText(ThemBenhNhanActivity.this,"Không tồn tại cơ sở y tế đã nhập!", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-//    }
-//
-//    private void themBenhNhan(CoSoYTe coSoYTe,ConNguoi conNguoi)
-//    {
-//        String SoLanMac = edtSoLanDT.getText() + "";
-//        String SoMuiVaccine = edtLichSu.getSelectedItem().toString();
-//        int soLanMac = Integer.parseInt(SoLanMac);
-//        int soMuiVaccine = Integer.parseInt(SoMuiVaccine);
-//
-//        BenhNhanCustom benhNhanCustom = new BenhNhanCustom();
-//        benhNhanCustom.setNgayPhatHien(edtNgayKetQua.getText().toString());
-//        benhNhanCustom.setSoLanMac(soLanMac);
-//        benhNhanCustom.setSoMuiVacin(soMuiVaccine);
-//        benhNhanCustom.setCmnd_BenhNhan(conNguoi);
-//        benhNhanCustom.setMaCSYT_BenhNhan(coSoYTe);
-//        BenhNhanService.benhNhanService.addBenhNhan(benhNhanCustom).enqueue(new Callback<BenhNhanCustom>() {
-//            @Override
-//            public void onResponse(Call<BenhNhanCustom> call, Response<BenhNhanCustom> response) {
-//                if(response.body() != null)
-//                {
-//                    Toast.makeText(ThemBenhNhanActivity.this,"Thêm mới thông tin thành công!",Toast.LENGTH_SHORT).show();
-//                }
-//                else
-//                    Toast.makeText(ThemBenhNhanActivity.this,"Thêm mới thông tin thất bại!",Toast.LENGTH_SHORT).show();
-//            }
-//            @Override
-//            public void onFailure(Call<BenhNhanCustom> call, Throwable t) {
-//                Toast.makeText(ThemBenhNhanActivity.this,"Call API thất bại!",Toast.LENGTH_SHORT).show();
-//                Log.e("benhnhan",t.toString());
-//            }
-//        });
-//    }
+
 }

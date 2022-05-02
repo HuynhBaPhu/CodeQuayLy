@@ -6,43 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".SuaBenhNhanActivity"
     android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#006466">
+        <ImageButton
+            android:id="@+id/backSuaThongTinBenhNhan1"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_back_activity"
             android:background="#006466">
-        </View>
+        </ImageButton>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="75dp">
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="25dp"
-                android:background="#006466"
-                android:src="@drawable/back"
-                app:tint="#FFFFFF"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="25dp"
-                android:text="Sửa thông tin bệnh nhân"
-                android:textColor="@color/white"
-                android:textSize="20dp" />
-        </LinearLayout>
-    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:fontFamily="@font/roboto_slab"
+            android:text="Sửa thông tin bệnh nhân"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </FrameLayout>
 
     //khung 2
     <LinearLayout
@@ -94,14 +78,16 @@
                     android:textColor="@color/black"
                     android:textSize="15dp" />
             </LinearLayout>
+
             <EditText
                 android:id="@+id/cmnd"
                 android:layout_width="195dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/edit_text_background"
-                android:textSize="15dp"
-                android:inputType="number"/>
+                android:fontFamily="@font/roboto_slab"
+                android:inputType="number"
+                android:textSize="15dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -109,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:id="@+id/btnDatLaiSuaBN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"

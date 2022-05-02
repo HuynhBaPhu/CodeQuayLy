@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import Adapter.Adapter_TXScoSoYTe;
 import Adapter.Adapter_XoaBenhNhan;
 import Adapter.Adapter_XoaCoSoYTe;
 import my_interface.ItemTouchHelperListener_CSYT;
@@ -36,26 +37,30 @@ public class RcvItemTouchHelper_CSYT extends ItemTouchHelper.SimpleCallback{
     public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
         if(viewHolder != null)
         {
-            View view = ((Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder) viewHolder).linearLayout;
+            //View view = ((Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder) viewHolder).linearLayout;
+            View view = ((Adapter_TXScoSoYTe.TXScoSoYTeViewHolder) viewHolder).linearLayout;
             getDefaultUIUtil().onSelected(view);
         }
     }
 
     @Override
     public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View view = ((Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder) viewHolder).linearLayout;
+        //View view = ((Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder) viewHolder).linearLayout;
+        View view = ((Adapter_TXScoSoYTe.TXScoSoYTeViewHolder) viewHolder).linearLayout;
         getDefaultUIUtil().onDrawOver(c, recyclerView, view, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View view = ((Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder) viewHolder).linearLayout;
+        //View view = ((Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder) viewHolder).linearLayout;
+        View view = ((Adapter_TXScoSoYTe.TXScoSoYTeViewHolder) viewHolder).linearLayout;
         getDefaultUIUtil().onDraw(c, recyclerView, view, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        View view = ((Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder) viewHolder).linearLayout;
+        //View view = ((Adapter_XoaCoSoYTe.XoaCoSoYTeViewHolder) viewHolder).linearLayout;
+        View view = ((Adapter_TXScoSoYTe.TXScoSoYTeViewHolder) viewHolder).linearLayout;
         getDefaultUIUtil().clearView(view);
     }
 }

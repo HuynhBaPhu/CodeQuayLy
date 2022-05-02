@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -38,11 +40,14 @@ public class XoaCoSoYTeActivity extends AppCompatActivity implements ItemTouchHe
     private EditText cmnd;
     private LinearLayout linearLayout;
     private int maCSYT;
+    private ImageButton btnBack;
+    private Button btnDatLai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xoa_co_so_yte);
+        getSupportActionBar().hide();
 
         linearLayout = findViewById(R.id.root_view);
         recyclerView = findViewById(R.id.dsbenhnhan);
@@ -95,6 +100,21 @@ public class XoaCoSoYTeActivity extends AppCompatActivity implements ItemTouchHe
             @Override
             public void afterTextChanged(Editable editable) {
                 filterDC(editable.toString());
+            }
+        });
+        btnBack = findViewById(R.id.back_XoaCoSoYTe);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        btnDatLai = findViewById(R.id.btnDatLaiXoaCSYT);
+        btnDatLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hoten.setText("");
+                cmnd.setText("");
             }
         });
     }

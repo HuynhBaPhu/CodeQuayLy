@@ -3,6 +3,7 @@ package api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Model.thongtincanhiem.ThongTinCaNhiem;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -18,4 +19,7 @@ public interface ApiService {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
+
+    @GET("covid/data.json")
+    Call<ThongTinCaNhiem> getListThongTinCaNhiem();
 }

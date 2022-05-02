@@ -42,7 +42,7 @@ public class Adapter_SuaCoSoYTe extends RecyclerView.Adapter<Adapter_SuaCoSoYTe.
             return;
         }
         holder.ten.setText(coSoYTe.getTenCSYT());
-        holder.cmnd.setText(coSoYTe.getDiaChi());
+        holder.diaChi.setText(coSoYTe.getDiaChi());
     }
 
     @Override
@@ -57,12 +57,12 @@ public class Adapter_SuaCoSoYTe extends RecyclerView.Adapter<Adapter_SuaCoSoYTe.
     public class SuaCoSoYTeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         private TextView ten;
-        private TextView cmnd;
+        private TextView diaChi;
 
         public SuaCoSoYTeViewHolder(@NonNull View itemView) {
             super(itemView);
             ten = itemView.findViewById(R.id.tenCSYT);
-            cmnd = itemView.findViewById(R.id.diachi);
+            diaChi = itemView.findViewById(R.id.diachi_SuaCSYT);
             itemView.setOnClickListener(this);
         }
         @Override

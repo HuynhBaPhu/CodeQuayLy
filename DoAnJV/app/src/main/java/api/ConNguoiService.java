@@ -32,6 +32,9 @@ public interface ConNguoiService {
     @GET("connguoi/getconnguoibyuid")
     Call<ConNguoi> getConNguoiByUID(@Query("uID") String uID);
 
+    @GET("connguoi/getonebyuidnvyte")
+    Call<ConNguoi> getConNguoiByUID_NVYTe(@Query("uID") String uID);
+
     @POST("connguoi/add")
     Call<Boolean> addConNguoi(@Body ConNguoi conNguoi);
 

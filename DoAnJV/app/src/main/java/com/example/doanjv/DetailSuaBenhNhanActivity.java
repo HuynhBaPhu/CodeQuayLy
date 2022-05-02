@@ -50,6 +50,7 @@ public class DetailSuaBenhNhanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_sua_benh_nhan);
+        getSupportActionBar().hide();
         anhxa();
         setData();
         click();
@@ -99,7 +100,7 @@ public class DetailSuaBenhNhanActivity extends AppCompatActivity {
 
     private void anhxa()
     {
-        back = (ImageButton) findViewById(R.id.back);
+        back = (ImageButton) findViewById(R.id.back_SuaBenhNhanDetail);
         name = (EditText) findViewById(R.id.hoten);
         edtNgaySinh = (EditText) findViewById(R.id.editTextDate);
         rdbGioiTinh = findViewById(R.id.rdbGioitinh);
@@ -124,6 +125,7 @@ public class DetailSuaBenhNhanActivity extends AppCompatActivity {
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
 
         edtNgaySinh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +164,7 @@ public class DetailSuaBenhNhanActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DetailSuaBenhNhanActivity.this, SuaBenhNhanActivity.class);
+                Intent intent = new Intent(DetailSuaBenhNhanActivity.this, TXSbenhNhan.class);
                 startActivity(intent);
             }
         });
@@ -170,9 +172,53 @@ public class DetailSuaBenhNhanActivity extends AppCompatActivity {
         btnLuuThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Update();
+                KiemTra();
             }
         });
+    }
+
+    private void KiemTra()
+    {
+        if(name.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaBenhNhanActivity.this,"Tên không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtNgaySinh.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaBenhNhanActivity.this,"Ngày sinh không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtTinhTP.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaBenhNhanActivity.this,"Tỉnh, Thành phố không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtQuanH.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaBenhNhanActivity.this,"Quận, Huyện không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtPhuongX.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaBenhNhanActivity.this,"Phường, Xã không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSonha.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaBenhNhanActivity.this,"Số nhà không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSdt.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaBenhNhanActivity.this,"Số điện thoại không đầy đủ",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtSoLanDT.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaBenhNhanActivity.this,"Chưa nhập số lần dương tính",Toast.LENGTH_SHORT).show();
+        }
+        else if(edtLichSu.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSuaBenhNhanActivity.this,"Chưa nhập số lần tiêm vaccine",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Update();
+        }
     }
 
     private void Update()
